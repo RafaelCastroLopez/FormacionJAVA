@@ -20,10 +20,10 @@ public class Controlador2 {
     }
 
     @Autowired
-    List<Ciudad> ciudades;
+    CiudadesService ciudadesService;
 
     @GetMapping("controlador2/getCiudad")
     public List<Ciudad> getCiudades(){
-        return ciudades;
+        return ciudadesService.getCiudad();
     }
 }

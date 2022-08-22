@@ -1,10 +1,7 @@
 package com.example.InyeccionDeDependencias;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,19 +20,16 @@ public class Controlador1 {
         return personaService.getPersona();
     }
 
-
     @Autowired
-    List<Ciudad> ciudades;
+    CiudadesService ciudadesService;
 
     @PostMapping("controlador1/addCiudad")
-    public void addCiudades(){
-        Ciudad ciudad1 = new Ciudad("Malaga", 571000);
-        Ciudad ciudad2 = new Ciudad("Madrid", 3200000);
-        Ciudad ciudad3 = new Ciudad("Alicante", 331500);
+    public void addCiudades(@RequestHeader String nombre, @RequestHeader int habitantes){
+        Ciudad ciudad = new Ciudad();
+        ciudad.setNombreCiudad(nombre);
+        ciudad.setNumHabitantes(habitantes);
 
-        ciudades.add(ciudad1);
-        ciudades.add(ciudad2);
-        ciudades.add(ciudad3);
+        ciudadesService.addCiudad(ciudad);
     }
 
 

@@ -1,8 +1,11 @@
 package com.example.InyeccionDeDependencias;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,20 +16,15 @@ public class InyeccionDeDependenciasApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(InyeccionDeDependenciasApplication.class, args);
 
-
-	}
-
-	@Bean
-	public List<Ciudad> registrarCiudad(){
-		List<Ciudad> ciudades = new ArrayList<Ciudad>();
-
-		return ciudades;
 	}
 
 	@Bean("Bean1")
 	public void addPersona1(){
 		Persona persona1 = new Persona();
 
+		persona1.setNombre("miguel");
+		persona1.setEdad(36);
+		persona1.setPoblacion("Badajoz");
 	}
 
 	@Bean("Bean2")

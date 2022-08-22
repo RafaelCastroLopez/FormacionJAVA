@@ -14,9 +14,6 @@ public class ControladorBeans {
     @GetMapping("controlador/bean/bean1")
     @Qualifier("Bean1")
     public Persona persona1(){
-        persona1.setNombre("miguel");
-        persona1.setEdad(36);
-        persona1.setPoblacion("Badajoz");
 
         return persona1;
     }
