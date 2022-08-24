@@ -22,9 +22,6 @@ public class InyeccionDeDependenciasApplication {
 	public void addPersona1(){
 		Persona persona1 = new Persona();
 
-		persona1.setNombre("miguel");
-		persona1.setEdad(36);
-		persona1.setPoblacion("Badajoz");
 	}
 
 	@Bean("Bean2")
