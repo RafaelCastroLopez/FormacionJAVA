@@ -9,8 +9,9 @@ import javax.annotation.PostConstruct;
 @Component
 public class Perfil1 implements Perfil{
 
+    public String perfil1 = "Perfil 1";
     @Override
     public String miFuncion() {
-        return "hola, soy el perfil 1";
+        return "hola, soy el" + perfil1;
     }
 }

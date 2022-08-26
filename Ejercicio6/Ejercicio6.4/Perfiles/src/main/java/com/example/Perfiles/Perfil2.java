@@ -8,8 +8,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class Perfil2 implements Perfil{
 
+    public String perfil2 = "Perfil 2";
     @Override
     public String miFuncion() {
-        return "hola, soy el perfil 2";
+        return "hola, soy el" + perfil2;
     }
 }
