@@ -15,7 +15,7 @@ public class PersonFindController {
     PersonaService personaService;
 
     @GetMapping("{id}")
-    public PersonaOutPutDto getPersonaById(@PathVariable int id){
+    public PersonaOutPutDto getPersonaById(@PathVariable int id) throws Exception {
         return personaService.getPersonaById(id);
     }
 

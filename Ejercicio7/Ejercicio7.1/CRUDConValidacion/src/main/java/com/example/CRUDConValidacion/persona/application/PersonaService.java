@@ -1,5 +1,6 @@
 package com.example.CRUDConValidacion.persona.application;
 
+import com.example.CRUDConValidacion.exceptions.EntityNotFoundException;
 import com.example.CRUDConValidacion.persona.domain.Persona;
 import com.example.CRUDConValidacion.persona.infraestructure.controller.inPut.PersonaInputDto;
 import com.example.CRUDConValidacion.persona.infraestructure.controller.outPut.PersonaOutPutDto;
@@ -14,9 +15,9 @@ public interface PersonaService {
 
     public PersonaOutPutDto updatePersona(PersonaInputDto personaInputDto, int id) throws Exception;
 
-    public void deletePersonaById(int id);
+    public void deletePersonaById(int id) throws Exception;
 
-    public PersonaOutPutDto getPersonaById(int id);
+    public PersonaOutPutDto getPersonaById(int id) throws Exception;
 
     public List<PersonaOutPutDto> getPersonaByName(String name);
 

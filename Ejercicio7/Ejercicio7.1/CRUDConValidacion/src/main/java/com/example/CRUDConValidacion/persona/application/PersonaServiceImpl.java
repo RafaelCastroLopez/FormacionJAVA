@@ -1,5 +1,7 @@
 package com.example.CRUDConValidacion.persona.application;
 
+import com.example.CRUDConValidacion.exceptions.EntityNotFoundException;
+import com.example.CRUDConValidacion.exceptions.UnprocessableEntityException;
 import com.example.CRUDConValidacion.persona.domain.Persona;
 import com.example.CRUDConValidacion.persona.infraestructure.controller.inPut.PersonaInputDto;
 import com.example.CRUDConValidacion.persona.infraestructure.controller.outPut.PersonaOutPutDto;
@@ -32,37 +34,37 @@ public class PersonaServiceImpl implements PersonaService{
         personaInputDto.setCreated_date(new Date());
 
         if (personaInputDto.getUsuario()==null){
-            throw new Exception("el usuario no puede ser nulo");
+            throw new UnprocessableEntityException("el usuario no puede ser nulo", 422);
         }
         if (personaInputDto.getUsuario().length()>10){
-            throw new Exception("no puede tener mas de 10 caracteres");
+            throw new UnprocessableEntityException("no puede tener mas de 10 caracteres", 422);
         }
         if (personaInputDto.getUsuario().length()<6){
-            throw new Exception("no puede tener menos de 6 caracteres");
+            throw new UnprocessableEntityException("no puede tener menos de 6 caracteres", 422);
         }
         if (personaInputDto.getPassword()==null){
-            throw new Exception("la contraseña no puede ser vacia");
+            throw new UnprocessableEntityException("la contraseña no puede ser vacia", 422);
         }
         if(personaInputDto.getName()==null){
-            throw new Exception("no puede ser null el nombre");
+            throw new UnprocessableEntityException("no puede ser null el nombre", 422);
         }
         if (personaInputDto.getCompany_email()==null){
-            throw new Exception("no puede ser null el email de compañia");
+            throw new UnprocessableEntityException("no puede ser null el email de compañia", 422);
         }
         if (!personaInputDto.getCompany_email().contains("@")){
-            throw new Exception("debe de ser un email");
+            throw new UnprocessableEntityException("debe de ser un email", 422);
         }
         if (personaInputDto.getPersonal_email()==null){
-            throw  new Exception("no puede ser null el email personal");
+            throw  new UnprocessableEntityException("no puede ser null el email personal", 422);
         }
         if (!personaInputDto.getPersonal_email().contains("@")){
-            throw new Exception("debe de ser un email");
+            throw new UnprocessableEntityException("debe de ser un email", 422);
         }
         if(personaInputDto.getCity()==null){
-            throw new Exception("por favor introduzca una ciudad");
+            throw new UnprocessableEntityException("por favor introduzca una ciudad", 422);
         }
         if (personaInputDto.getActive()==null){
-            throw new Exception("introduzca un valor");
+            throw new UnprocessableEntityException("introduzca un valor", 422);
         }
 
         Persona persona = personaInputDto.personaInPut();
@@ -79,7 +81,43 @@ public class PersonaServiceImpl implements PersonaService{
         Persona persona;
 
         if(personaOpt.isEmpty()){
-           throw new Exception("esta mal");
+           throw new EntityNotFoundException("No se ha encontrado el registro", 404);
+        }
+
+        personaInputDto.setCreated_date(new Date());
+
+        if (personaInputDto.getUsuario()==null){
+            throw new UnprocessableEntityException("el usuario no puede ser nulo", 422);
+        }
+        if (personaInputDto.getUsuario().length()>10){
+            throw new UnprocessableEntityException("no puede tener mas de 10 caracteres", 422);
+        }
+        if (personaInputDto.getUsuario().length()<6){
+            throw new UnprocessableEntityException("no puede tener menos de 6 caracteres", 422);
+        }
+        if (personaInputDto.getPassword()==null){
+            throw new UnprocessableEntityException("la contraseña no puede ser vacia", 422);
+        }
+        if(personaInputDto.getName()==null){
+            throw new UnprocessableEntityException("no puede ser null el nombre", 422);
+        }
+        if (personaInputDto.getCompany_email()==null){
+            throw new UnprocessableEntityException("no puede ser null el email de compañia", 422);
+        }
+        if (!personaInputDto.getCompany_email().contains("@")){
+            throw new UnprocessableEntityException("debe de ser un email", 422);
+        }
+        if (personaInputDto.getPersonal_email()==null){
+            throw  new UnprocessableEntityException("no puede ser null el email personal", 422);
+        }
+        if (!personaInputDto.getPersonal_email().contains("@")){
+            throw new UnprocessableEntityException("debe de ser un email", 422);
+        }
+        if(personaInputDto.getCity()==null){
+            throw new UnprocessableEntityException("por favor introduzca una ciudad", 422);
+        }
+        if (personaInputDto.getActive()==null){
+            throw new UnprocessableEntityException("introduzca un valor", 422);
         }
 
         persona = personaOpt.get();
@@ -100,15 +138,26 @@ public class PersonaServiceImpl implements PersonaService{
     }
 
     @Override
-    public void deletePersonaById(int id) {
+    public void deletePersonaById(int id) throws Exception {
+
+        Optional<Persona> personaOpt = personaRepository.findById(id);
+
+        if(personaOpt.isEmpty()){
+            throw new EntityNotFoundException("no se ha encontrado la persona ha eliminar", 404);
+        }
 
         personaRepository.deleteById(id);
 
     }
 
     @Override
-    public PersonaOutPutDto getPersonaById(int id) {
+    public PersonaOutPutDto getPersonaById(int id) throws Exception {
         Optional<Persona> personaOpt = personaRepository.findById(id);
+
+        if(personaOpt.isEmpty()){
+            throw new EntityNotFoundException("no se encontro la persona", 404);
+        }
+
         Persona persona = personaOpt.get();
 
         return new PersonaOutPutDto(persona);
