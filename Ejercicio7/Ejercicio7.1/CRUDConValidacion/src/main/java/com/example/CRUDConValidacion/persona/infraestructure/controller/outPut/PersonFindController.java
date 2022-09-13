@@ -14,17 +14,17 @@ public class PersonFindController {
     @Autowired
     PersonaService personaService;
 
-    @GetMapping("{id}")
+    @GetMapping("persona/{id}")
     public PersonaOutPutDto getPersonaById(@PathVariable int id) throws Exception {
         return personaService.getPersonaById(id);
     }
 
-    @GetMapping("/name/{name}")
+    @GetMapping("persona/name/{name}")
     public List<PersonaOutPutDto> getPersonaByName(@PathVariable String name){
         return personaService.getPersonaByName(name);
     }
 
-    @GetMapping("/todos")
+    @GetMapping("persona/todos")
     public List<PersonaOutPutDto> getAll(){
         return personaService.getAllPerson();
     }

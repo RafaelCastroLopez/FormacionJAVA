@@ -13,7 +13,7 @@ public class PersonCreateController {
     @Autowired
     PersonaService personaService;
 
-    @PostMapping
+    @PostMapping("persona")
     public PersonaOutPutDto addPersona(@RequestBody PersonaInputDto personaInputDto) throws Exception{
         return personaService.addPersona(personaInputDto);
     }

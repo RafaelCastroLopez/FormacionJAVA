@@ -122,7 +122,11 @@ public class PersonaServiceImpl implements PersonaService{
 
         persona = personaOpt.get();
         persona.setUsuario(personaInputDto.getUsuario());
-        persona.setPassword(personaInputDto.getPassword());
+        if(personaInputDto.getPassword()==null){
+            persona.setPassword(persona.getPassword());
+        }else {
+            persona.setPassword(personaInputDto.getPassword());
+        }
         persona.setName(personaInputDto.getName());
         persona.setSurname(personaInputDto.getSurname());
         persona.setCompany_email(personaInputDto.getCompany_email());
