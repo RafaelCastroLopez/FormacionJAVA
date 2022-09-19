@@ -2,6 +2,7 @@ package com.example.CRUDConValidacion.persona.infraestructure.controller.outPut;
 
 import com.example.CRUDConValidacion.persona.application.PersonaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,7 +25,8 @@ public class PersonFindController {
         return personaService.getPersonaByName(name);
     }
 
-    @GetMapping("persona/todos")
+    @GetMapping("/getall")
+    @CrossOrigin
     public List<PersonaOutPutDto> getAll(){
         return personaService.getAllPerson();
     }
