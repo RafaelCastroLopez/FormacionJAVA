@@ -3,10 +3,15 @@ package com.example.CRUDConValidacion.persona.application;
 import com.example.CRUDConValidacion.exceptions.EntityNotFoundException;
 import com.example.CRUDConValidacion.exceptions.UnprocessableEntityException;
 import com.example.CRUDConValidacion.persona.domain.Persona;
+import com.example.CRUDConValidacion.persona.domain.PersonaPage;
+import com.example.CRUDConValidacion.persona.domain.PersonaSearchCriteria;
 import com.example.CRUDConValidacion.persona.infraestructure.controller.inPut.PersonaInputDto;
 import com.example.CRUDConValidacion.persona.infraestructure.controller.outPut.PersonaOutPutDto;
+import com.example.CRUDConValidacion.persona.infraestructure.repository.PersonaCriteriaRepository;
 import com.example.CRUDConValidacion.persona.infraestructure.repository.PersonaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -23,6 +28,9 @@ public class PersonaServiceImpl implements PersonaService{
 
     @Autowired
     PersonaRepository personaRepository;
+
+    @Autowired
+    PersonaCriteriaRepository personaCriteriaRepository;
 
     @Override
     public PersonaOutPutDto getPersona() {
@@ -185,5 +193,14 @@ public class PersonaServiceImpl implements PersonaService{
         personasOutPutDto = personas.stream().map(persona -> new PersonaOutPutDto(persona)).collect(Collectors.toList());
 
         return personasOutPutDto;
+    }
+
+    @Override
+    public Page<PersonaOutPutDto> getPersonasCriteria(PersonaPage personaPage, PersonaSearchCriteria personaSearchCriteria){
+
+        Page<Persona> pagePersona = personaCriteriaRepository.findAllWithFilters(personaPage, personaSearchCriteria);
+        List<PersonaOutPutDto> listPersonaCriteria = pagePersona.getContent().stream().map(PersonaOutPutDto::new).collect(Collectors.toList());
+
+        return new PageImpl<>(listPersonaCriteria, pagePersona.getPageable(), pagePersona.getTotalElements());
     }
 }
