@@ -1,0 +1,32 @@
+version: "3.7"
+services:
+  consul:
+    image: consul
+    ports:
+      - "8500:8500"
+    networks:
+      - consulnetwork
+  backend:
+    image: docker.io/library/proyecto-cloud:0.0.1-SNAPSHOT
+    ports:
+      - "8080:8080"
+    build: .
+    environment:
+      CONSUL_URL: consul
+    depends_on:
+      - consul
+    networks:
+      - consulnetwork
+  back-frontend:
+    image: docker.io/library/back-frontend:0.0.1-SNAPSHOT
+    build: ../back-frontend/.
+    ports:
+      - "8081:8081"
+    networks:
+      - consulnetwork
+    environment:
+      CONSUL_URL: consul
+    depends_on:
+      - consul
+networks:
+  consulnetwork:
