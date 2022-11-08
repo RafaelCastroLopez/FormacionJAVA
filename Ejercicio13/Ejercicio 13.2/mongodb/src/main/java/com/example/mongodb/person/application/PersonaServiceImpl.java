@@ -8,6 +8,10 @@ import com.example.mongodb.person.infraestructure.controller.output.PersonOutput
 import com.example.mongodb.person.infraestructure.repository.PersonaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.repository.Query;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -20,6 +24,9 @@ public class PersonaServiceImpl implements PersonaService{
 
     @Autowired
     PersonaRepository personaRepository;
+
+    @Autowired
+    MongoTemplate mongoTemplate;
 
     @Override
     public PersonOutputDTO addPersona(PersonInputDTO personInputDTO) {
@@ -44,7 +51,7 @@ public class PersonaServiceImpl implements PersonaService{
 
         Persona persona = personInputDTO.inputDTOtoPerson();
 
-        personaRepository.save(persona);
+        mongoTemplate.save(persona);
 
         return new PersonOutputDTO(persona);
     }
@@ -83,14 +90,12 @@ public class PersonaServiceImpl implements PersonaService{
 
     @Override
     public PersonOutputDTO getPersona(String id) {
-        Optional<Persona> personaOPT = personaRepository.findById(id);
+        Persona personaOPT = mongoTemplate.findById(id, Persona.class);
 
-        if(personaOPT.isEmpty())
+        if(personaOPT==null)
             throw new EntityNotFoundfException("la persona no existe");
 
-        Persona persona = personaOPT.get();
-
-        return new PersonOutputDTO(persona);
+        return new PersonOutputDTO(personaOPT);
     }
 
     @Override
@@ -108,14 +113,12 @@ public class PersonaServiceImpl implements PersonaService{
 
     @Override
     public String deletePersona(String id) {
-        Optional<Persona> personaOPT = personaRepository.findById(id);
+        Persona personaOPT = mongoTemplate.findById(id, Persona.class);
 
-        if(personaOPT.isEmpty())
+        if(personaOPT==null)
             throw new EntityNotFoundfException("la persona no existe");
 
-        Persona persona = personaOPT.get();
-
-        personaRepository.delete(persona);
+        mongoTemplate.remove(personaOPT);
 
         return "se ha borrado la persona";
     }

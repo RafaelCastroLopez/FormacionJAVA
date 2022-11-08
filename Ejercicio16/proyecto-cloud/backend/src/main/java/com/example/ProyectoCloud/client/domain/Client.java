@@ -33,5 +33,4 @@ public class Client {
     @JsonBackReference
     public Trip trip;
 
-
 }
